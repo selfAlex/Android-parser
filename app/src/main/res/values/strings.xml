@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Parser</string>
+    <string name="computer_hardware_parser">Computer hardware parser</string>
+    <string name="shop_kz">Shop.kz</string>
+    <string name="technodom_kz">Technodom.kz</string>
+    <string name="satu_kz">Satu.kz</string>
+    <string name="find">Find</string>
+
+    <string-array name="hardware">
+        <item>CPU Processors</item>
+        <item>Graphic cards</item>
+        <item>Motherboards</item>
+    </string-array>
 </resources>
