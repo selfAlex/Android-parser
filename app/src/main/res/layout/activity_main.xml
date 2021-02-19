@@ -65,6 +65,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="144dp"
         android:text="@string/find"
+
+        android:onClick="find"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
