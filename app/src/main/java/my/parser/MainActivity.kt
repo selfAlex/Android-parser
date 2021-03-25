@@ -29,28 +29,24 @@ class MainActivity : AppCompatActivity() {
 
         val spinnerHardware: Spinner = findViewById(R.id.spinnerHardware)
         val hardware = spinnerHardware.selectedItem.toString()
-        intent.putExtra("hardware", hardware)
 
         val switchShop: Switch = findViewById(R.id.switchShop)
         val useShop = switchShop.isChecked
-        intent.putExtra("useShop", useShop)
 
         val switchTechnodom: Switch = findViewById(R.id.switchTechnodom)
         val useTechnodom = switchTechnodom.isChecked
-        intent.putExtra("useTechnodom", useTechnodom)
 
         val switchSatu : Switch = findViewById(R.id.switchSatu)
         val useSatu = switchSatu.isChecked
-        intent.putExtra("useSatu", useSatu)
 
         val elements = ArrayList<String?>()
 
         val jsonBody = JSONObject()
 
-        jsonBody.put("hardware", "Motherboards")
-        jsonBody.put("use_shop", 1)
-        jsonBody.put("use_forcecom", 0)
-        jsonBody.put("use_satu", 0)
+        jsonBody.put("hardware", hardware)
+        jsonBody.put("use_shop", useShop)
+        jsonBody.put("use_forcecom", useTechnodom)
+        jsonBody.put("use_satu", useSatu)
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
 
