@@ -103,9 +103,9 @@ class MainActivity : AppCompatActivity() {
 
 
 class JsonHandler(shop: List<Map<String, String?>>, forcecom: List<Map<String, String?>>, satu: List<Map<String, String?>>) {
-    var shop: List<Map<String, String?>>? = null
-    var forcecom: List<Map<String, String?>>? = null
-    var satu: List<Map<String, String?>>? = null
+    var shop: List<Map<String, String?>>? = shop
+    var forcecom: List<Map<String, String?>>? = forcecom
+    var satu: List<Map<String, String?>>? = satu
 
     override fun toString(): String {
         return "Shop: ${this.shop}, 'Forcecom: ${this.forcecom}, Satu: ${this.satu}"
