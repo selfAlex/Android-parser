@@ -45,8 +45,6 @@ def start_parsing():
     else:
         data_json = None
 
-    print(type(data_json) is dict)
-
     return dumps(data_json)
 
 

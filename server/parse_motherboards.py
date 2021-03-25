@@ -136,31 +136,26 @@ def parse_satu():
 
 def parse(use_shop, use_forcecom, use_satu):
 
-    data = [
-        {"name": "shop",
-         "products": None},
-
-        {"name": "forcecom",
-         "products": None},
-
-        {"name": "satu",
-         "products": None}
-    ]
+    data = {
+        "shop": None,
+        "forcecom": None,
+        "satu": None
+    }
 
     if use_shop:
         data_shop = parse_shop()
 
-        data[0]['products'] = data_shop
+        data['shop'] = data_shop
 
     if use_forcecom:
         data_forcecom = parse_forcecom()
 
-        data[1]['products'] = data_forcecom
+        data['forcecom'] = data_forcecom
 
     if use_satu:
         data_satu = parse_satu()
 
-        data[2]['products'] = data_satu
+        data['satu'] = data_satu
 
     return data
 
