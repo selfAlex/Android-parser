@@ -15,13 +15,6 @@ def get_data():
     return jsonify({'data': data})
 
 
-@app.route('/prikol', methods=['POST'])
-def prikol():
-    p = {'shop': [{'product': 'my_product', 'shop': 'my_shop'}], 'forcecom': 2, 'satu': 3}
-
-    return dumps(p)
-
-
 @app.route('/', methods=['POST'])
 def start_parsing():
 
