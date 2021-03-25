@@ -2,17 +2,10 @@ from parse_graphiccards import parse as parse_graphiccards
 from parse_cpu import parse as parse_cpu
 from parse_motherboards import parse as parse_motherboards
 
-from flask import Flask, jsonify, request
+from flask import Flask, request
 from json import dumps
 
 app = Flask(__name__)
-
-
-@app.route('/get')
-def get_data():
-    data = '******'
-
-    return jsonify({'data': data})
 
 
 @app.route('/', methods=['POST'])
