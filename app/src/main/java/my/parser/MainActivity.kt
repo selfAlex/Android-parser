@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("useSatu", useSatu)
 
         val elements = ArrayList<String?>()
-        var shop: List<Map<String, String?>>?
 
         val jsonBody = JSONObject()
 
@@ -52,8 +51,6 @@ class MainActivity : AppCompatActivity() {
         jsonBody.put("use_shop", 1)
         jsonBody.put("use_forcecom", 0)
         jsonBody.put("use_satu", 0)
-
-        var data: String?
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
 
@@ -76,17 +73,21 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                data = response.body?.string()
+                val data = response.body?.string()
 
                 val gson = Gson()
 
+                println("Объект GSON Создан")
+
                 val jsonHandler = gson.fromJson(data, JsonHandler::class.java)
 
-                shop = jsonHandler.shop
+                println("JSON Успешно обработан")
 
-                if (shop != null) {
-                    for (element in shop!!) {
-                        elements.add(element["title"])
+                val shopData = jsonHandler.shop
+
+                if (shopData != null) {
+                    for (product in shopData) {
+                        elements.add(product["title"])
                     }
                 }
 
@@ -102,12 +103,12 @@ class MainActivity : AppCompatActivity() {
 
 
 class JsonHandler(shop: List<Map<String, String?>>, forcecom: List<Map<String, String?>>, satu: List<Map<String, String?>>) {
-    var shop: List<Map<String, String?>>? = shop
-    private var forcecom: List<Map<String, String?>>? = forcecom
-    private var satu: List<Map<String, String?>>? = satu
+    var shop: List<Map<String, String?>>? = null
+    var forcecom: List<Map<String, String?>>? = null
+    var satu: List<Map<String, String?>>? = null
 
     override fun toString(): String {
-        return "[SHOP.KZ: ${this.shop}, FORCECOM.KZ: ${this.forcecom}, SATU.KZ: ${this.satu}]"
+        return "Shop: ${this.shop}, 'Forcecom: ${this.forcecom}, Satu: ${this.satu}"
     }
 
 }
