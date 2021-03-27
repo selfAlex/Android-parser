@@ -95,7 +95,7 @@ def parse_forcecom():
 
             try:
                 d = item.find('table').find('tr', class_='').find('td', class_='description_wrapp').find('div', class_='description').find('div', class_='preview_text').get_text(),
-                data[-1]['description'] = d[1:-1]
+                data[-1]['description'] = d[0] # d[1:-1]
             except AttributeError:
                 pass
 
@@ -107,50 +107,50 @@ def parse_forcecom():
     return data
 
 
-def parse_satu():
+def parse_tomas():
     data = []
-    url = 'https://satu.kz/search?category=70701&search_term=процессоры&a5527=135299'
+    url = 'https://tomas.kz/t/processory-1269/'
 
     def get_pages_count():
         html = get_html(url)
         soup = BeautifulSoup(html.text, 'html.parser')
 
-        pagination = soup.find('div', class_='ek-grid ek-grid_indent-x_xxs ek-grid_align_center').find_all('div')
+        pagination = soup.find('div', class_='pager pager_goods').find_all('a')
 
-        return int(pagination[-2].find('button').get_text())
+        return int(pagination[-1].get_text())
 
-    for page in range(1, 2):
-        html = get_html(url, params={'page': page})
+    for page in range(1, get_pages_count()+1):
+        html = get_html(url+str(page))
         soup = BeautifulSoup(html.text, 'html.parser')
 
-        items = soup.find('div', class_='ek-grid ek-grid_indent_xs ek-grid_column_2 ek-grid_column_3@small ek-grid_column_4@medium ek-grid_column_5@large').find_all('div', class_='ek-box ek-box_position_relative ek-box_height_1-1 ek-box_background_white productTile__container--dpjbE')
+        items = soup.find_all('div', class_='goods__item')
 
         for item in items:
             data.append({
 
-                'image_url': None,
+                'image_url': item.find('div', class_='goods__img-row').find('a').find('span').find('img')['src'],
 
-                'title': None,
+                'title': item.find('div', class_='goods__img-row').find('a')['title'],
 
                 'description': None,
 
-                'cost': None,
+                'cost': item.find('div', class_='goods__price-row').find('div').find('div').find('span').get_text(strip=True),
 
-                'url': None,
+                'url': item.find('div', class_='goods__img-row').find('a')['href'],
 
             })
 
-    return items
+    return data
 
 
-def parse(use_shop, use_forcecom, use_satu):
+def parse(use_shop, use_forcecom, use_tomas):
 
-    # data = {'shop': None, 'technodom': None, 'satu': None}
+    # data = {'shop': None, 'technodom': None, 'tomas': None}
 
     data = {
         "shop": None,
         "forcecom": None,
-        "satu": None
+        "tomas": None
     }
 
     if use_shop:
@@ -163,9 +163,9 @@ def parse(use_shop, use_forcecom, use_satu):
 
         data['forcecom'] = data_forcecom
 
-    if use_satu:
-        data_satu = parse_satu()
+    if use_tomas:
+        data_tomas = parse_tomas()
 
-        data['satu'] = data_satu
+        data['tomas'] = data_tomas
 
     return data

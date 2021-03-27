@@ -101,10 +101,10 @@ def parse_forcecom():
             })
 
             try:
-                data[-1]['description'] = item.find('table').find('tr', class_='').find('td', class_='description_wrapp').find('div',
+                d = item.find('table').find('tr', class_='').find('td', class_='description_wrapp').find('div',
                                                                                                          class_='description').find(
                     'div', class_='preview_text').get_text(),
-                # data[-1]['description'] = d[1:-1]
+                data[-1]['description'] = d[0]  # d[1:-1]
             except AttributeError:
                 pass
 
@@ -120,26 +120,49 @@ def parse_forcecom():
     return data
 
 
-def parse_satu():
-    url = 'https://satu.kz/Videokarty?a5527=135299'
+def parse_tomas():
+    data = []
+    url = 'https://tomas.kz/Videokarty?a5527=135299'
 
     def get_pages_count():
         html = get_html(url)
         soup = BeautifulSoup(html.text, 'html.parser')
 
-        pagination = soup.find('div', class_='ek-grid ek-grid_indent-x_xxs ek-grid_align_center').find_all('div')
+        pagination = soup.find('div', class_='pager pager_goods').find_all('a')
 
-        return int(pagination[-2].find('button').get_text())
+        return int(pagination[-1].get_text())
 
-    return get_pages_count()
+    for page in range(1, get_pages_count() + 1):
+        html = get_html(url + str(page))
+        soup = BeautifulSoup(html.text, 'html.parser')
+
+        items = soup.find_all('div', class_='goods__item')
+
+        for item in items:
+            data.append({
+
+                'image_url': item.find('div', class_='goods__img-row').find('a').find('span').find('img')['src'],
+
+                'title': item.find('div', class_='goods__img-row').find('a')['title'],
+
+                'description': None,
+
+                'cost': item.find('div', class_='goods__price-row').find('div').find('div').find('span').get_text(
+                    strip=True),
+
+                'url': item.find('div', class_='goods__img-row').find('a')['href'],
+
+            })
+
+    return data
 
 
-def parse(use_shop, use_forcecom, use_satu):
+def parse(use_shop, use_forcecom, use_tomas):
 
     data = {
         "shop": None,
         "forcecom": None,
-        "satu": None
+        "tomas": None
     }
 
     if use_shop:
@@ -152,10 +175,10 @@ def parse(use_shop, use_forcecom, use_satu):
 
         data['forcecom'] = data_forcecom
 
-    if use_satu:
-        data_satu = parse_satu()
+    if use_tomas:
+        data_tomas = parse_tomas()
 
-        data['satu'] = data_satu
+        data['tomas'] = data_tomas
 
     return data
 

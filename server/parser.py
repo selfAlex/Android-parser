@@ -17,16 +17,16 @@ def start_parsing():
 
     use_shop = parsing_parameters['use_shop']
     use_forcecom = parsing_parameters['use_forcecom']
-    use_satu = parsing_parameters['use_satu']
+    use_tomas = parsing_parameters['use_tomas']
 
     if hardware == 'Graphic cards':
-        data_json = parse_graphiccards(use_shop, use_forcecom, use_satu)
+        data_json = parse_graphiccards(use_shop, use_forcecom, use_tomas)
 
     elif hardware == 'CPU Processors':
-        data_json = parse_cpu(use_shop, use_forcecom, use_satu)
+        data_json = parse_cpu(use_shop, use_forcecom, use_tomas)
 
     elif hardware == 'Motherboards':
-        data_json = parse_motherboards(use_shop, use_forcecom, use_satu)
+        data_json = parse_motherboards(use_shop, use_forcecom, use_tomas)
 
     else:
         data_json = None
