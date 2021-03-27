@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, SoupStrainer
 
 import requests
 import json
@@ -21,7 +21,7 @@ def parse_shop():
 
     def get_pages_count():
         html = get_html(url)
-        soup = BeautifulSoup(html.text, 'html.parser')
+        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'bx-pagination-container row'}))
 
         pagination = soup.find('div', class_='bx-pagination-container row').find_all('li', class_='')
 
@@ -29,7 +29,7 @@ def parse_shop():
 
     for page in range(1, get_pages_count()+1):
         html = get_html(url, params={'PAGEN_1': page})
-        soup = BeautifulSoup(html.text, 'html.parser')
+        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'bx_catalog_item_container gtm-impression-product'}))
 
         items = soup.find_all('div', class_='bx_catalog_item_container gtm-impression-product')
 
@@ -66,7 +66,7 @@ def parse_forcecom():
 
     def get_pages_count():
         html = get_html(url)
-        soup = BeautifulSoup(html.text, 'html.parser')
+        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'nums'}))
 
         pagination = soup.find('div', class_='nums').find_all('a')
 
@@ -74,7 +74,7 @@ def parse_forcecom():
 
     for page in range(1, get_pages_count()+1):
         html = get_html(url, params={'PAGEN_1': page})
-        soup = BeautifulSoup(html.text, 'html.parser')
+        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'list_item_wrapp item_wrap item'}))
 
         items = soup.find_all('div', class_='list_item_wrapp item_wrap item')
 
@@ -113,7 +113,7 @@ def parse_tomas():
 
     def get_pages_count():
         html = get_html(url)
-        soup = BeautifulSoup(html.text, 'html.parser')
+        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'pager pager_goods'}))
 
         pagination = soup.find('div', class_='pager pager_goods').find_all('a')
 
@@ -121,7 +121,7 @@ def parse_tomas():
 
     for page in range(1, get_pages_count()+1):
         html = get_html(url+str(page))
-        soup = BeautifulSoup(html.text, 'html.parser')
+        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'goods__item'}))
 
         items = soup.find_all('div', class_='goods__item')
 
