@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         val switchTechnodom: Switch = findViewById(R.id.switchTechnodom)
         val useTechnodom = switchTechnodom.isChecked
 
-        val switchSatu : Switch = findViewById(R.id.switchSatu)
-        val useSatu = switchSatu.isChecked
+        val switchTomas : Switch = findViewById(R.id.switchTomas)
+        val useTomas = switchTomas.isChecked
 
         val elements = ArrayList<String?>()
 
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         jsonBody.put("hardware", hardware)
         jsonBody.put("use_shop", useShop)
         jsonBody.put("use_forcecom", useTechnodom)
-        jsonBody.put("use_satu", useSatu)
+        jsonBody.put("use_tomas", useTomas)
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
 
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
                 println("JSON Успешно обработан")
 
-                val shopData = jsonHandler.shop
+                val shopData = jsonHandler.forcecom
 
                 if (shopData != null) {
                     for (product in shopData) {
@@ -98,13 +98,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-class JsonHandler(shop: List<Map<String, String?>>, forcecom: List<Map<String, String?>>, satu: List<Map<String, String?>>) {
+class JsonHandler(shop: List<Map<String, String?>>, forcecom: List<Map<String, String?>>, tomas: List<Map<String, String?>>) {
     var shop: List<Map<String, String?>>? = shop
     var forcecom: List<Map<String, String?>>? = forcecom
-    var satu: List<Map<String, String?>>? = satu
+    var tomas: List<Map<String, String?>>? = tomas
 
     override fun toString(): String {
-        return "Shop: ${this.shop}, 'Forcecom: ${this.forcecom}, Satu: ${this.satu}"
+        return "Shop: ${this.shop}, 'Forcecom: ${this.forcecom}, Tomas: ${this.tomas}"
     }
 
 }
