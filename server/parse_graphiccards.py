@@ -35,7 +35,7 @@ def parse_shop():
         for item in items:
             data.append({
 
-                'image_url': item.find('figure', class_='item_image_container').find('a')['style'][23:-2],
+                'image_url': 'https:' + item.find('figure', class_='item_image_container').find('a')['style'][23:-2],
 
                 'title': item.find('div', class_='bx-catalog-middle-part').find
                 ('div', class_='bx_catalog_item_title').find('a').get_text(),
@@ -80,7 +80,7 @@ def parse_forcecom():
         for item in items:
             data.append({
 
-                'image_url': 'forcecom.kz' +
+                'image_url': 'https://' + 'forcecom.kz' +
                              item.find('table').find('tr', class_='').find('td', class_='image_block').find('div',
                                                                                                             class_='image_wrapper_block').find(
                                  'a').find('img')['src'],
@@ -141,7 +141,7 @@ def parse_tomas():
         for item in items:
             data.append({
 
-                'image_url': item.find('div', class_='goods__img-row').find('a').find('span').find('img')['src'],
+                'image_url': 'https:' + item.find('div', class_='goods__img-row').find('a').find('span').find('img')['src'],
 
                 'title': item.find('div', class_='goods__img-row').find('a')['title'],
 
