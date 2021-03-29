@@ -5,6 +5,7 @@
     <string name="technodom_kz">Technodom.kz</string>
     <string name="tomas_kz">Tomas.kz</string>
     <string name="find">Find</string>
+    <string name="product_image">Product image</string>
 
     <string-array name="hardware">
         <item>CPU Processors</item>

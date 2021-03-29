@@ -5,6 +5,7 @@ import android.os.Bundle
 
 import android.view.View
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.widget.Spinner
 import android.widget.Switch
 import com.google.gson.Gson
@@ -15,12 +16,15 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 import org.json.JSONObject
 import java.io.IOException
+import java.io.Serializable
 import java.util.concurrent.TimeUnit
-
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         setContentView(R.layout.activity_main)
     }
 
@@ -39,8 +43,6 @@ class MainActivity : AppCompatActivity() {
         val switchTomas : Switch = findViewById(R.id.switchTomas)
         val useTomas = switchTomas.isChecked
 
-        val elements = ArrayList<String?>()
-
         val jsonBody = JSONObject()
 
         jsonBody.put("hardware", hardware)
@@ -51,9 +53,9 @@ class MainActivity : AppCompatActivity() {
         val mediaType = "application/json; charset=utf-8".toMediaType()
 
         val okHttpClient = OkHttpClient.Builder()
-                .connectTimeout(300, TimeUnit.SECONDS)
-                .writeTimeout(300, TimeUnit.SECONDS)
-                .readTimeout(300, TimeUnit.SECONDS)
+                .connectTimeout(6000, TimeUnit.SECONDS)
+                .writeTimeout(6000, TimeUnit.SECONDS)
+                .readTimeout(6000, TimeUnit.SECONDS)
                 .build()
 
         val requestBody = jsonBody.toString().toRequestBody(mediaType)
@@ -79,15 +81,48 @@ class MainActivity : AppCompatActivity() {
 
                 println("JSON Успешно обработан")
 
-                val shopData = jsonHandler.forcecom
+                val dataShop = jsonHandler.shop
+                val dataForcecom = jsonHandler.forcecom
+                val dataTomas = jsonHandler.tomas
 
-                if (shopData != null) {
-                    for (product in shopData) {
-                        elements.add(product["title"])
+                val productsShop = ArrayList<Product>()
+
+                if (dataShop != null) {
+                    for (product in dataShop) {
+                        productsShop.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
                     }
                 }
 
+                val storeShop = Store("Shop", productsShop)
+
+                val productsForcecom = ArrayList<Product>()
+
+                if (dataForcecom != null) {
+                    for (product in dataForcecom) {
+                        productsForcecom.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
+                    }
+                }
+
+                val storeForcecom = Store("Shop", productsForcecom)
+
+                val productsTomas = ArrayList<Product>()
+
+                if (dataTomas != null) {
+                    for (product in dataTomas) {
+                        productsTomas.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
+                    }
+                }
+
+                val storeTomas = Store("Shop", productsTomas)
+
+                val elements = ArrayList<Product>()
+                elements.addAll(storeShop.products)
+                elements.addAll(storeForcecom.products)
+                elements.addAll(storeTomas.products)
+
+
                 intent.putExtra("elements", elements)
+                println("ИНТЕНТ СОЗДАН")
                 startActivity(intent)
             }
         })
@@ -108,4 +143,7 @@ class JsonHandler(shop: List<Map<String, String?>>, forcecom: List<Map<String, S
     }
 
 }
+
+data class Product(val image_url: String?, val title: String?, val description: String?, val cost: String?, val url: String?) : Serializable
+data class Store(val name: String, val products: ArrayList<Product>) : Serializable
 
