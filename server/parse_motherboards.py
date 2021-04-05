@@ -38,7 +38,7 @@ def parse_shop():
                 'image_url': 'https:' + item.find('figure', class_='item_image_container').find('a')['style'][23:-2],
 
                 'title': item.find('div', class_='bx-catalog-middle-part').find
-                ('div', class_='bx_catalog_item_title').find('a').get_text(),
+                ('div', class_='bx_catalog_item_title').find('a').get_text()[18:],
 
                 'description': '',
 
@@ -87,7 +87,7 @@ def parse_forcecom():
 
                 'title': item.find('table').find('tr', class_='').find('td', class_='description_wrapp').find('div',
                                                                                                               class_='description').find(
-                    'div', class_='item-title').find('a').find('span').get_text(),
+                    'div', class_='item-title').find('a').find('span').get_text()[18:],
 
                 'description': None,
 

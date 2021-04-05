@@ -2,6 +2,7 @@ package my.parser
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,10 @@ class ResultActivity : AppCompatActivity() {
 
     }
 
+    fun example(view: View) {
+        println('g')
+    }
+
     class CustomRecyclerAdapter(private val values: ArrayList<Product>) :
             RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
 
@@ -45,19 +50,28 @@ class ResultActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             holder.textTitle?.text = values[position].title
-            holder.textDescription?.text = values[position].description
+//            holder.textDescription?.text = values[position].description
+            holder.textCost?.text = "Cost: " + values[position].cost
+
             Picasso.get().load(values[position].image_url).into(holder.productImage)
+
+            holder.textRedirect?.text = values[position].url
+
         }
 
         class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             var textTitle: TextView? = null
-            var textDescription: TextView? = null
+//            var textDescription: TextView? = null
+            var textCost: TextView? = null
             var productImage: ImageView? = null
+            var textRedirect: TextView? = null
 
             init {
                 textTitle = itemView.findViewById(R.id.text_view_title)
-                textDescription = itemView.findViewById(R.id.text_view_description)
+//                textDescription = itemView.findViewById(R.id.text_view_description)
+                textCost = itemView.findViewById(R.id.text_view_cost)
                 productImage = itemView.findViewById(R.id.product_image)
+                textRedirect = itemView.findViewById(R.id.text_view_redirect)
             }
         }
 
