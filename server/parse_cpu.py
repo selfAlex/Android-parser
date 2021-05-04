@@ -119,7 +119,7 @@ def parse_tomas():
 
         return int(pagination[-1].get_text())
 
-    for page in range(1, get_pages_count()+1):
+    for page in range(1, 2):
         html = get_html(url+str(page))
         soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'goods__item'}))
 
