@@ -1,8 +1,6 @@
 package my.parser
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import java.net.URL
 
 class ResultActivity : AppCompatActivity() {
 
