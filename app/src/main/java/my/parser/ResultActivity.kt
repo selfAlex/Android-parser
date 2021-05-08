@@ -34,10 +34,6 @@ class ResultActivity : AppCompatActivity() {
 
     }
 
-    fun example(view: View) {
-        println('g')
-    }
-
     class CustomRecyclerAdapter(private val values: ArrayList<Product>) :
             RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
 
