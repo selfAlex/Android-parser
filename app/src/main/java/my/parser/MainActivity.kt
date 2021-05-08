@@ -80,11 +80,7 @@ class MainActivity : AppCompatActivity() {
 
                 val gson = Gson()
 
-                println("Объект GSON Создан")
-
                 val jsonHandler = gson.fromJson(data, JsonHandler::class.java)
-
-                println("JSON Успешно обработан")
 
                 val dataShop = jsonHandler.shop
                 val dataForcecom = jsonHandler.forcecom
@@ -127,7 +123,6 @@ class MainActivity : AppCompatActivity() {
 
 
                 intent.putExtra("elements", elements)
-                println("ИНТЕНТ СОЗДАН")
                 startActivity(intent)
             }
         })
