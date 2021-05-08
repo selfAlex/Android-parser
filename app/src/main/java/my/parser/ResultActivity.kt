@@ -20,14 +20,10 @@ class ResultActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
-        print("RECYCLER VIEW НАЙДЕН")
-
         val elements = intent.getSerializableExtra("elements") as ArrayList<Product>
-        println("ИНТЕНТ ПОЛУЧЕН")
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = CustomRecyclerAdapter(elements)
-
 
     }
 
