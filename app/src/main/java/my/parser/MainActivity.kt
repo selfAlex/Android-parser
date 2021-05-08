@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.Switch
 import com.google.gson.Gson
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
 
         val switchTomas : Switch = findViewById(R.id.switchTomas)
         val useTomas = switchTomas.isChecked
+
+        val buttonFind : Button = findViewById(R.id.button)
+        buttonFind.text = getString(R.string.parsingText)
+        buttonFind.isEnabled = false
 
         val jsonBody = JSONObject()
 
