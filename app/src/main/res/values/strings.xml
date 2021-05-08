@@ -6,6 +6,7 @@
     <string name="tomas_kz">Tomas.kz</string>
     <string name="find">Find</string>
     <string name="product_image">Product image</string>
+    <string name="parsingText">Parsing …</string>
 
     <string-array name="hardware">
         <item>CPU Processors</item>
