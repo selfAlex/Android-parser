@@ -1,5 +1,6 @@
 package my.parser
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,13 @@ class ResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_result)
+
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
-        val elements = intent.getSerializableExtra("elements") as ArrayList<Product>
+        val elements = intent.getSerializableExtra("products") as ArrayList<Product>
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = CustomRecyclerAdapter(elements)
@@ -40,7 +43,7 @@ class ResultActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             holder.textTitle?.text = values[position].title
 //            holder.textDescription?.text = values[position].description
-            holder.textCost?.text = "Cost: " + values[position].cost
+            holder.textCost?.text = values[position].cost
 
             Picasso.get().load(values[position].image_url).into(holder.productImage)
 

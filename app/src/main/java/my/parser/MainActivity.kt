@@ -3,12 +3,12 @@ package my.parser
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-import android.view.View
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.Switch
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.gson.Gson
 
 import okhttp3.*
@@ -23,37 +23,17 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
         setContentView(R.layout.activity_main)
-    }
-
-    fun find(view: View) {
-        val intent = Intent(this, ResultActivity::class.java)
-
-        val spinnerHardware: Spinner = findViewById(R.id.spinnerHardware)
-        val hardware = spinnerHardware.selectedItem.toString()
-
-        val switchShop: Switch = findViewById(R.id.switchShop)
-        val useShop = switchShop.isChecked
-
-        val switchTechnodom: Switch = findViewById(R.id.switchTechnodom)
-        val useTechnodom = switchTechnodom.isChecked
-
-        val switchTomas : Switch = findViewById(R.id.switchTomas)
-        val useTomas = switchTomas.isChecked
 
         val buttonFind : Button = findViewById(R.id.button)
-        buttonFind.text = getString(R.string.parsingText)
-        buttonFind.isEnabled = false
+        buttonFind.setOnClickListener{find()}
+    }
 
-        val jsonBody = JSONObject()
+    private fun find() {
+        val intent = Intent(this, ResultActivity::class.java)
 
-        jsonBody.put("hardware", hardware)
-        jsonBody.put("use_shop", useShop)
-        jsonBody.put("use_forcecom", useTechnodom)
-        jsonBody.put("use_tomas", useTomas)
+        val jsonBody = getJsonBody()
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
 
@@ -66,9 +46,9 @@ class MainActivity : AppCompatActivity() {
         val requestBody = jsonBody.toString().toRequestBody(mediaType)
 
         val request = Request.Builder()
-                .method("POST", requestBody)
-                .url("http://192.168.1.22:5000")
-                .build()
+            .method("POST", requestBody)
+            .url("http://192.168.1.22:5000")
+            .build()
         okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 println(call)
@@ -76,61 +56,94 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val data = response.body?.string()
-
+                val dataRaw = response.body?.string()
                 val gson = Gson()
+                val data = gson.fromJson(dataRaw, JsonHandler::class.java)
 
-                val jsonHandler = gson.fromJson(data, JsonHandler::class.java)
+                val productsShop = getProductsShop(data)
+                val productsForcecom = getProductsForcecom(data)
+                val productsTomas = getProductsTomas(data)
 
-                val dataShop = jsonHandler.shop
-                val dataForcecom = jsonHandler.forcecom
-                val dataTomas = jsonHandler.tomas
+                val products = ArrayList<Product>()
+                products.addAll(productsShop)
+                products.addAll(productsForcecom)
+                products.addAll(productsTomas)
 
-                val productsShop = ArrayList<Product>()
-
-                if (dataShop != null) {
-                    for (product in dataShop) {
-                        productsShop.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
-                    }
-                }
-
-                val storeShop = Store("Shop", productsShop)
-
-                val productsForcecom = ArrayList<Product>()
-
-                if (dataForcecom != null) {
-                    for (product in dataForcecom) {
-                        productsForcecom.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
-                    }
-                }
-
-                val storeForcecom = Store("Shop", productsForcecom)
-
-                val productsTomas = ArrayList<Product>()
-
-                if (dataTomas != null) {
-                    for (product in dataTomas) {
-                        productsTomas.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
-                    }
-                }
-
-                val storeTomas = Store("Shop", productsTomas)
-
-                val elements = ArrayList<Product>()
-                elements.addAll(storeShop.products)
-                elements.addAll(storeForcecom.products)
-                elements.addAll(storeTomas.products)
-
-
-                intent.putExtra("elements", elements)
+                intent.putExtra("products", products)
                 startActivity(intent)
             }
+
         })
 
     }
 
+    private fun getJsonBody(): JSONObject {
+        val jsonBody = JSONObject()
+
+        val spinnerHardware: Spinner = findViewById(R.id.spinnerHardware)
+        val hardware = spinnerHardware.selectedItem.toString()
+
+        val switchShop: SwitchMaterial = findViewById(R.id.switchShop)
+        val useShop = switchShop.isChecked
+
+        val switchTechnodom: SwitchMaterial = findViewById(R.id.switchTechnodom)
+        val useForcecom = switchTechnodom.isChecked
+
+        val switchTomas : SwitchMaterial = findViewById(R.id.switchTomas)
+        val useTomas = switchTomas.isChecked
+
+        jsonBody.put("hardware", hardware)
+        jsonBody.put("use_shop", useShop)
+        jsonBody.put("use_forcecom", useForcecom)
+        jsonBody.put("use_tomas", useTomas)
+
+        return jsonBody
+    }
+
+    private fun getProductsShop(data: JsonHandler): ArrayList<Product> {
+        val dataShop = data.shop
+
+        val productsShop = ArrayList<Product>()
+
+        if (dataShop != null) {
+            for (product in dataShop) {
+                productsShop.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
+            }
+        }
+
+        return productsShop
 
     }
+
+    private fun getProductsForcecom(data: JsonHandler): ArrayList<Product> {
+        val dataForcecom = data.forcecom
+
+        val productsForcecom = ArrayList<Product>()
+
+        if (dataForcecom != null) {
+            for (product in dataForcecom) {
+                productsForcecom.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
+            }
+        }
+
+        return productsForcecom
+    }
+
+    private fun getProductsTomas(data: JsonHandler): ArrayList<Product> {
+        val dataTomas = data.tomas
+
+        val productsTomas = ArrayList<Product>()
+
+        if (dataTomas != null) {
+            for (product in dataTomas) {
+                productsTomas.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
+            }
+        }
+
+        return productsTomas
+    }
+
+}
 
 
 class JsonHandler(shop: List<Map<String, String?>>, forcecom: List<Map<String, String?>>, tomas: List<Map<String, String?>>) {
@@ -145,5 +158,3 @@ class JsonHandler(shop: List<Map<String, String?>>, forcecom: List<Map<String, S
 }
 
 data class Product(val image_url: String?, val title: String?, val description: String?, val cost: String?, val url: String?) : Serializable
-data class Store(val name: String, val products: ArrayList<Product>) : Serializable
-
