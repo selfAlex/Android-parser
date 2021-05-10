@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.widget.Button
 import android.widget.Spinner
-import android.widget.Switch
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.gson.Gson
 
