@@ -81,21 +81,14 @@ class MainActivity : AppCompatActivity() {
         val jsonBody = JSONObject()
 
         val spinnerHardware: Spinner = findViewById(R.id.spinnerHardware)
-        val hardware = spinnerHardware.selectedItem.toString()
-
         val switchShop: SwitchMaterial = findViewById(R.id.switchShop)
-        val useShop = switchShop.isChecked
-
         val switchTechnodom: SwitchMaterial = findViewById(R.id.switchTechnodom)
-        val useForcecom = switchTechnodom.isChecked
-
         val switchTomas : SwitchMaterial = findViewById(R.id.switchTomas)
-        val useTomas = switchTomas.isChecked
 
-        jsonBody.put("hardware", hardware)
-        jsonBody.put("use_shop", useShop)
-        jsonBody.put("use_forcecom", useForcecom)
-        jsonBody.put("use_tomas", useTomas)
+        jsonBody.put("hardware", spinnerHardware.selectedItem.toString())
+        jsonBody.put("use_shop", switchShop.isChecked)
+        jsonBody.put("use_forcecom", switchTechnodom.isChecked)
+        jsonBody.put("use_tomas", switchTomas.isChecked)
 
         return jsonBody
     }
