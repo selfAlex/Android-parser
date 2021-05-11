@@ -59,9 +59,9 @@ class MainActivity : AppCompatActivity() {
                 val gson = Gson()
                 val data = gson.fromJson(dataRaw, JsonHandler::class.java)
 
-                val productsShop = getProductsShop(data)
-                val productsForcecom = getProductsForcecom(data)
-                val productsTomas = getProductsTomas(data)
+                val productsShop = toProductList(data.shop)
+                val productsForcecom = toProductList(data.forcecom)
+                val productsTomas = toProductList(data.tomas)
 
                 val products = ArrayList<Product>()
                 products.addAll(productsShop)
@@ -92,47 +92,16 @@ class MainActivity : AppCompatActivity() {
         return jsonBody
     }
 
-    private fun getProductsShop(data: JsonHandler): ArrayList<Product> {
-        val dataShop = data.shop
+    private fun toProductList(elements: List<Map<String, String?>>?): ArrayList<Product> {
+        val productList = ArrayList<Product>()
 
-        val productsShop = ArrayList<Product>()
-
-        if (dataShop != null) {
-            for (product in dataShop) {
-                productsShop.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
+        if (elements != null) {
+            for (element in elements) {
+                productList.add(Product(element["image_url"], element["title"], element["description"], element["cost"], element["url"]))
             }
         }
 
-        return productsShop
-
-    }
-
-    private fun getProductsForcecom(data: JsonHandler): ArrayList<Product> {
-        val dataForcecom = data.forcecom
-
-        val productsForcecom = ArrayList<Product>()
-
-        if (dataForcecom != null) {
-            for (product in dataForcecom) {
-                productsForcecom.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
-            }
-        }
-
-        return productsForcecom
-    }
-
-    private fun getProductsTomas(data: JsonHandler): ArrayList<Product> {
-        val dataTomas = data.tomas
-
-        val productsTomas = ArrayList<Product>()
-
-        if (dataTomas != null) {
-            for (product in dataTomas) {
-                productsTomas.add(Product(product["image_url"], product["title"], product["description"], product["cost"], product["url"]))
-            }
-        }
-
-        return productsTomas
+        return productList
     }
 
 }
