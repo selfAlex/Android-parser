@@ -15,9 +15,9 @@ def start_parsing():
 
     hardware = parsing_parameters['hardware']
 
-    use_shop = parsing_parameters['use_shop']
-    use_forcecom = parsing_parameters['use_forcecom']
-    use_tomas = parsing_parameters['use_tomas']
+    use_shop = parsing_parameters['useShop']
+    use_forcecom = parsing_parameters['useForcecom']
+    use_tomas = parsing_parameters['useTomas']
 
     if hardware == 'Graphic cards':
         data_json = parse_graphiccards(use_shop, use_forcecom, use_tomas)
