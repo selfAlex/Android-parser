@@ -29,9 +29,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ResultActivity"
-            android:label="">
+        <activity android:name=".ResultActivity" android:label="">
         </activity>
 
     </application>
