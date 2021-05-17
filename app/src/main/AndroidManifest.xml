@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="my.parser">
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="my.parser">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,17 +12,19 @@
         android:fullBackupContent="true"
 
         android:icon="@mipmap/ic_launcher"
-        android:label=""
         android:roundIcon="@mipmap/ic_launcher_round"
+
+        android:label=""
+
         android:supportsRtl="true"
 
         android:theme="@style/Theme.Parser"
+
         tools:targetApi="m">
 
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,7 +32,6 @@
         <activity
             android:name=".ResultActivity"
             android:label="">
-
         </activity>
 
     </application>
