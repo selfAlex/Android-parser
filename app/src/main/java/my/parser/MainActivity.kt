@@ -1,17 +1,20 @@
 package my.parser
 
+import my.parser.main.MainViewModel
+
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.switchmaterial.SwitchMaterial
-import kotlinx.coroutines.flow.collect
-import my.parser.main.MainViewModel
 
+import kotlinx.coroutines.flow.collect
+
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MainActivity : AppCompatActivity() {
 
