@@ -1,5 +1,6 @@
 package my.parser
 
+import android.content.Intent
 import my.parser.main.MainViewModel
 
 import android.content.pm.ActivityInfo
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_main)
 
+        val intent = Intent(this, ResultActivity::class.java)
+
         val button: Button = findViewById(R.id.button)
         val t: TextView = findViewById(R.id.textViewTitle)
 
@@ -48,7 +51,9 @@ class MainActivity : AppCompatActivity() {
                 when (event) {
 
                     is MainViewModel.ParserEvent.Success -> {
-                        t.text = event.resultText
+                        intent.putExtra("products", event.resultText)
+
+                        startActivity(intent)
                     }
 
                     is MainViewModel.ParserEvent.Failure -> {
