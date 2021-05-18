@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import my.parser.data.models.ParserRequest
+import my.parser.data.models.Product
 import my.parser.util.DispatcherProvider
 import my.parser.util.Resource
 import okhttp3.Dispatcher
@@ -18,7 +19,7 @@ import okhttp3.Dispatcher
 class MainViewModel(application: Application): AndroidViewModel(application) {
 
     sealed class ParserEvent {
-        class Success(val resultText: String): ParserEvent()
+        class Success(val resultText: ArrayList<Product>): ParserEvent()
         class Failure(val errorText: String): ParserEvent()
 
         object Loading: ParserEvent()
@@ -49,11 +50,19 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                 }
 
                 is Resource.Success -> {
+
+
                     val dataShop = dataResponse.data!!.shop
                     val dataForcecom = dataResponse.data.forcecom
                     val dataTomas = dataResponse.data.tomas
 
-                    _state.value = ParserEvent.Success("dataShop: $dataShop, dataForcecom: $dataForcecom, dataTomas: $dataTomas")
+                    val data = ArrayList<Product>()
+
+                    if (dataShop != null) { data.addAll(dataShop) }
+                    if (dataForcecom != null) { data.addAll(dataForcecom) }
+                    if (dataTomas != null) { data.addAll(dataTomas) }
+
+                    _state.value = ParserEvent.Success(data)
                 }
 
             }
