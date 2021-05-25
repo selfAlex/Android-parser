@@ -11,7 +11,7 @@ private const val BASE_URL = "http://192.168.1.22:5000/"
 
 object AppModule {
 
-    val okHttpClient = OkHttpClient.Builder()
+    private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(6000, TimeUnit.SECONDS)
         .writeTimeout(6000, TimeUnit.SECONDS)
         .readTimeout(6000, TimeUnit.SECONDS)
