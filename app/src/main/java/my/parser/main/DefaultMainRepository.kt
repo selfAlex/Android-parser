@@ -1,11 +1,9 @@
 package my.parser.main
 
-import my.parser.data.ParserApi
 import my.parser.AppModule
 import my.parser.data.models.ParserRequest
 import my.parser.data.models.ParserResponse
 import my.parser.util.Resource
-import retrofit2.Response
 import java.lang.Exception
 
 class DefaultMainRepository : MainRepository {
