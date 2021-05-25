@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ResultActivity::class.java)
 
         val button: Button = findViewById(R.id.button)
-        val t: TextView = findViewById(R.id.textViewTitle)
 
         val spinnerHardware: Spinner = findViewById(R.id.spinnerHardware)
         val switchShop: SwitchMaterial = findViewById(R.id.switchShop)
@@ -53,15 +52,20 @@ class MainActivity : AppCompatActivity() {
                     is MainViewModel.ParserEvent.Success -> {
                         intent.putExtra("products", event.resultText)
 
+                        button.text = getString(R.string.find)
+                        button.isEnabled = true
+
                         startActivity(intent)
                     }
 
                     is MainViewModel.ParserEvent.Failure -> {
-                        t.text = event.errorText
+                        button.text = getString(R.string.errorText)
+                        button.isEnabled = true
                     }
 
                     is MainViewModel.ParserEvent.Loading -> {
-                        t.text = "LOADING !@!!!!"
+                        button.text = getString(R.string.loadingText)
+                        button.isEnabled = false
                     }
 
                     else -> Unit
