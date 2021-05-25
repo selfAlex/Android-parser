@@ -1,10 +1,8 @@
 package my.parser.main
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,9 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import my.parser.data.models.ParserRequest
 import my.parser.data.models.Product
-import my.parser.util.DispatcherProvider
 import my.parser.util.Resource
-import okhttp3.Dispatcher
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
 
