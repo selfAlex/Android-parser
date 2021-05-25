@@ -7,7 +7,7 @@
     <string name="find">Find</string>
     <string name="product_image">Product image</string>
     <string name="parsingText">Parsing …</string>
-    <string name="loadingText">Loading …</string>
+    <string name="loadingText">Loading</string>
     <string name="errorText">Error occurred. Try again</string>
 
     <string-array name="hardware">
