@@ -3,8 +3,6 @@ package my.parser.main
 import my.parser.data.models.ParserRequest
 import my.parser.data.models.ParserResponse
 import my.parser.util.Resource
-import retrofit2.Call
-import retrofit2.Response
 
 import retrofit2.http.Body
 import retrofit2.http.POST
