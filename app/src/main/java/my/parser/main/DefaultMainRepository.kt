@@ -20,7 +20,7 @@ class DefaultMainRepository : MainRepository {
                 Resource.Error(response.message())
             }
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "An error occured")
+            Resource.Error(e.message ?: "An error occurred")
         }
 
     }
