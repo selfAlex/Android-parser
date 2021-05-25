@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             viewModel.loadData(
-                spinnerHardware.selectedItem.toString(),
-                switchShop.isChecked,
-                switchTechnodom.isChecked,
-                switchTomas.isChecked
+                    spinnerHardware.selectedItem.toString(),
+                    switchShop.isChecked,
+                    switchTechnodom.isChecked,
+                    switchTomas.isChecked
             )
         }
 
