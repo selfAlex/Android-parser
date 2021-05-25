@@ -8,12 +8,15 @@
 
     <TextView
         android:id="@+id/textViewTitle"
-        android:layout_width="187dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="308dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="84dp"
         android:text="@string/computer_hardware_parser"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,18 +24,19 @@
         android:id="@+id/spinnerHardware"
         android:layout_width="253dp"
         android:layout_height="52dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="92dp"
         android:entries="@array/hardware"
+        android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
 
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchShop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="52dp"
         android:text="@string/shop_kz"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -43,21 +47,22 @@
         android:id="@+id/switchTechnodom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="32dp"
         android:text="@string/technodom_kz"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchShop" />
+        app:layout_constraintTop_toBottomOf="@+id/switchTomas" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchTomas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="32dp"
         android:text="@string/tomas_kz"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchTechnodom" />
+        app:layout_constraintTop_toBottomOf="@+id/switchShop" />
 
     <Button
         android:id="@+id/button"
@@ -67,7 +72,7 @@
         android:text="@string/find"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 
