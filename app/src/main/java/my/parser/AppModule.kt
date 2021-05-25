@@ -1,8 +1,6 @@
 package my.parser
 
 import my.parser.data.ParserApi
-import my.parser.main.DefaultMainRepository
-import my.parser.main.MainRepository
 import okhttp3.OkHttpClient
 
 import retrofit2.Retrofit
