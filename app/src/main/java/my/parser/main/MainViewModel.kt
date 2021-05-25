@@ -47,10 +47,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
                 is Resource.Success -> {
 
-
-                    val dataShop = dataResponse.data!!.shop
-                    val dataForcecom = dataResponse.data.forcecom
-                    val dataTomas = dataResponse.data.tomas
+                    val dataShop = dataResponse.data?.shop
+                    val dataForcecom = dataResponse.data?.forcecom
+                    val dataTomas = dataResponse.data?.tomas
 
                     val data = ArrayList<Product>()
 
