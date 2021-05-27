@@ -33,7 +33,7 @@ class ResultActivity : AppCompatActivity() {
 
     }
 
-    class CustomRecyclerAdapter(private val values: ArrayList<Product>, val context: Context) :
+    class CustomRecyclerAdapter(private val values: ArrayList<Product>, private val context: Context) :
             RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
 
         override fun getItemCount() = values.size
