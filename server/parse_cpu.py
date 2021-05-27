@@ -47,7 +47,7 @@ def parse_shop():
                 ('div', class_='bx_catalog_item_price').find('div').find('div', class_='bx-more-prices').find
                 ('ul').find_all('li')[-1].find('span', class_='bx-more-price-text').get_text(),
 
-                'url': 'shop.kz' + item.find('div', class_='bx-catalog-middle-part').find
+                'url': 'https://shop.kz' + item.find('div', class_='bx-catalog-middle-part').find
                 ('div', class_='bx_catalog_item_title').find('a')['href']
 
             })
@@ -89,7 +89,7 @@ def parse_forcecom():
 
                 'cost': None,
 
-                'url': 'forcecom.kz' + item.find('table').find('tr', class_='').find('td', class_='image_block').find('div', class_='image_wrapper_block').find('a')['href']
+                'url': 'https://forcecom.kz' + item.find('table').find('tr', class_='').find('td', class_='image_block').find('div', class_='image_wrapper_block').find('a')['href']
 
             })
 
