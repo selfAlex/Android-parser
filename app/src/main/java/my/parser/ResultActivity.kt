@@ -1,10 +1,11 @@
 package my.parser
 
+import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ class ResultActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         setContentView(R.layout.activity_result)
 
 
@@ -27,11 +29,11 @@ class ResultActivity : AppCompatActivity() {
         val elements = intent.getSerializableExtra("products") as ArrayList<Product>
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = CustomRecyclerAdapter(elements)
+        recyclerView.adapter = CustomRecyclerAdapter(elements, this)
 
     }
 
-    class CustomRecyclerAdapter(private val values: ArrayList<Product>) :
+    class CustomRecyclerAdapter(private val values: ArrayList<Product>, val context: Context) :
             RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
 
         override fun getItemCount() = values.size
@@ -43,31 +45,35 @@ class ResultActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             holder.textTitle?.text = values[position].title
-//            holder.textDescription?.text = values[position].description
+            holder.textDescription?.text = values[position].description
             holder.textCost?.text = values[position].cost
 
             Picasso.get().load(values[position].image_url).into(holder.productImage)
 
-            holder.textRedirect?.text = values[position].url
+            holder.textTitle?.setOnClickListener {
+                val urlRedirect = Uri.parse(values[position].url)
+
+                val data = Intent(Intent.ACTION_VIEW, urlRedirect)
+                context.startActivity(data)
+            }
 
         }
 
         class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             var textTitle: TextView? = null
-//            var textDescription: TextView? = null
+            var textDescription: TextView? = null
             var textCost: TextView? = null
             var productImage: ImageView? = null
-            var textRedirect: TextView? = null
 
             init {
                 textTitle = itemView.findViewById(R.id.text_view_title)
-//                textDescription = itemView.findViewById(R.id.text_view_description)
+                textDescription = itemView.findViewById(R.id.text_view_description)
                 textCost = itemView.findViewById(R.id.text_view_cost)
                 productImage = itemView.findViewById(R.id.product_image)
-                textRedirect = itemView.findViewById(R.id.text_view_redirect)
             }
         }
 
     }
+
 
 }
