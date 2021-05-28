@@ -63,8 +63,9 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/product_image"
+        app:shapeAppearanceOverlay="@style/roundedImageView"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"

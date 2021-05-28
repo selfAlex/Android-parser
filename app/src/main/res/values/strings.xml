@@ -9,6 +9,8 @@
     <string name="parsingText">Parsing …</string>
     <string name="loadingText">Loading</string>
     <string name="errorText">Error occurred. Try again</string>
+    <string name="floatingButtonDescription">Changing the display order by price</string>
+    <string name="searchHint">Search</string>
 
     <string-array name="hardware">
         <item>CPU Processors</item>
