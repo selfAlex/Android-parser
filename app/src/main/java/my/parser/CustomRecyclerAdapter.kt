@@ -16,29 +16,36 @@ import my.parser.data.models.Product
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CustomRecyclerAdapter(private val values: ArrayList<Product>, private var valuesFiltered: ArrayList<Product>, private val context: Context) :
-        RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>(), Filterable {
+class CustomRecyclerAdapter(
+        private val values: ArrayList<Product>,
+        private var valuesFiltered: ArrayList<Product>,
+        private val context: Context) :
+
+        RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>(),
+        Filterable {
 
     override fun getItemCount() = valuesFiltered.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.activity_result_elements, parent, false)
+
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         holder.textTitle?.text = valuesFiltered[position].title
-        holder.textDescription?.text = valuesFiltered[position].description
-        holder.textCost?.text = valuesFiltered[position].cost
-
-        Picasso.get().load(valuesFiltered[position].image_url).into(holder.productImage)
-
         holder.textTitle?.setOnClickListener {
             val urlRedirect = Uri.parse(valuesFiltered[position].url)
 
             val data = Intent(Intent.ACTION_VIEW, urlRedirect)
             context.startActivity(data)
         }
+
+        holder.textDescription?.text = valuesFiltered[position].description
+        holder.textCost?.text = valuesFiltered[position].cost
+
+        Picasso.get().load(valuesFiltered[position].image_url).into(holder.productImage)
 
     }
 
@@ -57,7 +64,9 @@ class CustomRecyclerAdapter(private val values: ArrayList<Product>, private var 
     }
 
     override fun getFilter(): Filter {
+
         return object : Filter() {
+
             override fun performFiltering(p0: CharSequence?): FilterResults {
                 val key: String = p0.toString()
 
@@ -68,7 +77,7 @@ class CustomRecyclerAdapter(private val values: ArrayList<Product>, private var 
 
                     for (value in values) {
                         if (value.title.toLowerCase(Locale.ROOT).contains(key.toLowerCase(Locale.ROOT))) {
-                            newValues.add(value);
+                            newValues.add(value)
                         }
                     }
 
@@ -77,11 +86,13 @@ class CustomRecyclerAdapter(private val values: ArrayList<Product>, private var 
 
                 val filterResults = FilterResults()
                 filterResults.values = valuesFiltered
+
                 return filterResults
 
             }
 
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+                @Suppress("UNCHECKED_CAST")
                 valuesFiltered = p1?.values as ArrayList<Product>
                 notifyDataSetChanged()
             }
