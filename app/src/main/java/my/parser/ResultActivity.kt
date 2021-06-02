@@ -21,32 +21,22 @@ class ResultActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_result)
 
-
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        val costSwitcher: FloatingActionButton = findViewById(R.id.cost_switcher)
-        val searchInput: EditText = findViewById(R.id.search_input)
-
-        val elements = intent.getSerializableExtra("products") as ArrayList<Product>
-
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        @Suppress("UNCHECKED_CAST")
+        val elements = intent.getSerializableExtra("products") as ArrayList<Product>
 
         val adapter = CustomRecyclerAdapter(elements, elements,this)
         recyclerView.adapter = adapter
 
+        val costSwitcher: FloatingActionButton = findViewById(R.id.cost_switcher)
+
+        val searchInput: EditText = findViewById(R.id.search_input)
         searchInput.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                adapter.filter.filter(p0)
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {adapter.filter.filter(p0)}
+            override fun afterTextChanged(p0: Editable?) {}  })
 
     }
 
