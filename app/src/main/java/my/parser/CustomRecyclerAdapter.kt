@@ -43,7 +43,7 @@ class CustomRecyclerAdapter(
         }
 
         holder.textDescription?.text = valuesFiltered[position].description
-        holder.textCost?.text = valuesFiltered[position].cost
+        holder.textCost?.text = valuesFiltered[position].cost.toString()
 
         Picasso.get().load(valuesFiltered[position].image_url).into(holder.productImage)
 
@@ -61,6 +61,11 @@ class CustomRecyclerAdapter(
             textCost = itemView.findViewById(R.id.text_view_cost)
             productImage = itemView.findViewById(R.id.product_image)
         }
+    }
+
+    fun reverse() {
+        valuesFiltered.reverse()
+        notifyDataSetChanged()
     }
 
     override fun getFilter(): Filter {

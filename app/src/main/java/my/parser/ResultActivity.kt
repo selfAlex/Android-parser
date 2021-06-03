@@ -31,6 +31,9 @@ class ResultActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         val costSwitcher: FloatingActionButton = findViewById(R.id.cost_switcher)
+        costSwitcher.setOnClickListener {
+            adapter.reverse()
+        }
 
         val searchInput: EditText = findViewById(R.id.search_input)
         searchInput.addTextChangedListener(object: TextWatcher {

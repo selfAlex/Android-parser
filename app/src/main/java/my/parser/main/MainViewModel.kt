@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 import my.parser.data.models.ParserRequest
 import my.parser.data.models.Product
 import my.parser.util.Resource
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
 
@@ -47,9 +49,14 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
                 is Resource.Success -> {
 
-                    val dataShop = dataResponse.data?.shop
-                    val dataForcecom = dataResponse.data?.forcecom
-                    val dataTomas = dataResponse.data?.tomas
+                    var dataShop = dataResponse.data?.shop
+                    dataShop = dataShop?.sortedByDescending { it.cost }
+
+                    var dataForcecom = dataResponse.data?.forcecom
+                    dataForcecom = dataForcecom?.sortedByDescending { it.cost }
+
+                    var dataTomas = dataResponse.data?.tomas
+                    dataTomas = dataTomas?.sortedByDescending { it.cost }
 
                     val data = ArrayList<Product>()
 
