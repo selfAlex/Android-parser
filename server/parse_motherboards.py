@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup, SoupStrainer
 
 import requests
-import json
+import ast
 
 HEADERS = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -20,7 +20,8 @@ def parse_shop():
 
     def get_pages_count():
         html = get_html(url)
-        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'bx-pagination-container row'}))
+        soup = BeautifulSoup(html.text, 'html.parser',
+                             parse_only=SoupStrainer('div', {'class': 'bx_catalog_item double'}))
 
         pagination = soup.find('div', class_='bx-pagination-container row').find_all('li', class_='')
 
@@ -28,27 +29,33 @@ def parse_shop():
 
     for page in range(1, get_pages_count() + 1):
         html = get_html(url, params={'PAGEN_1': page})
-        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'bx_catalog_item_container gtm-impression-product'}))
+        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {
+            'class': 'bx_catalog_item_container gtm-impression-product'}))
 
         items = soup.find_all('div', class_='bx_catalog_item_container gtm-impression-product')
 
         for item in items:
             data.append({
 
-                'image_url': 'https:' + item.find('figure', class_='item_image_container').find('a')['style'][23:-2],
+                'image_url': 'https:' +
+                             item.find('div', class_='bx_catalog_item_container gtm-impression-product').find('figure',
+                                                                                                              class_='item_image_container').find(
+                                 'a')['style'][23:-2],
 
-                'title': item.find('div', class_='bx-catalog-middle-part').find
-                ('div', class_='bx_catalog_item_title').find('a').get_text()[18:],
+                'title': ast.literal_eval(
+                    item.find('div', class_='bx_catalog_item_container gtm-impression-product')['data-product'])[
+                    'name'],
 
                 'description': '',
 
-                'cost': item.find('div', class_='bx-catalog-right-part').find
-                ('div', class_='bx_catalog_item_price').find('div').find('div', class_='bx-more-prices').find
-                ('ul').find_all('li')[-1].find('span', class_='bx-more-price-text').get_text(),
+                'cost': ast.literal_eval(
+                    item.find('div', class_='bx_catalog_item_container gtm-impression-product')['data-product'])[
+                    'price'],
 
-                'url': 'https://shop.kz' + item.find('div', class_='bx-catalog-middle-part').find
-                ('div', class_='bx_catalog_item_title').find('a')['href']
-
+                'url': 'https://shop.kz' +
+                       item.find('div', class_='bx_catalog_item_container gtm-impression-product').find('div',
+                                                                                                        class_='bx-catalog-middle-part').find
+                       ('div', class_='bx_catalog_item_title').find('a')['href']
             })
 
             description_spans = item.find_all('span')
@@ -73,7 +80,8 @@ def parse_forcecom():
 
     for page in range(1, get_pages_count() + 1):
         html = get_html(url, params={'PAGEN_1': page})
-        soup = BeautifulSoup(html.text, 'html.parser', parse_only=SoupStrainer('div', {'class': 'list_item_wrapp item_wrap item'}))
+        soup = BeautifulSoup(html.text, 'html.parser',
+                             parse_only=SoupStrainer('div', {'class': 'list_item_wrapp item_wrap item'}))
 
         items = soup.find_all('div', class_='list_item_wrapp item_wrap item')
 
@@ -110,10 +118,11 @@ def parse_forcecom():
 
             try:
                 data[-1]['cost'] = \
-                item.find('table').find('tr', class_='').find('td', class_='information_wrapp main_item_wrapper').find(
-                    'div', class_='information').find('div', class_='cost prices clearfix').find('div',
-                                                                                                 class_='price_group 1497a90b-3ddf-11e6-89ef-ac9e1788bb3d').find(
-                    'div', class_='price_matrix_wrapper').find('div', class_='price')['data-value']
+                    int(item.find('table').find('tr', class_='').find('td',
+                                                                      class_='information_wrapp main_item_wrapper').find(
+                        'div', class_='information').find('div', class_='cost prices clearfix').find('div',
+                                                                                                     class_='price_group 1497a90b-3ddf-11e6-89ef-ac9e1788bb3d').find(
+                        'div', class_='price_matrix_wrapper').find('div', class_='price')['data-value'])
             except AttributeError:
                 pass
 
@@ -141,24 +150,31 @@ def parse_tomas():
         for item in items:
             data.append({
 
-                'image_url': 'https:' + item.find('div', class_='goods__img-row').find('a').find('span').find('img')['src'],
+                'image_url': 'https:' + item.find('div', class_='goods__img-row').find('a').find('span').find('img')[
+                    'src'],
 
                 'title': item.find('div', class_='goods__img-row').find('a')['title'],
 
                 'description': None,
 
                 'cost': item.find('div', class_='goods__price-row').find('div').find('div').find('span').get_text(
-                    strip=True),
+                    strip=True)[:-2],
 
                 'url': item.find('div', class_='goods__img-row').find('a')['href'],
 
             })
 
+            try:
+                data[-1]['cost'] = int(float(data[-1]['cost'].replace(u'\xa0', u'').replace(',', '.')))
+            except ValueError:
+                data[-1]['cost'] = item.find('div', class_='goods__price-row').find('div').find('div').find(
+                    'span').find('span').get_text(strip=True)[:-2]
+                data[-1]['cost'] = int(float(data[-1]['cost'].replace(u'\xa0', u'').replace(',', '.')))
+
     return data
 
 
 def parse(use_shop, use_forcecom, use_tomas):
-
     data = {
         "shop": None,
         "forcecom": None,
@@ -181,5 +197,3 @@ def parse(use_shop, use_forcecom, use_tomas):
         data['tomas'] = data_tomas
 
     return data
-
-
