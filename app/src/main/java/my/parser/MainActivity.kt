@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.Toast
 
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         val switchTechnodom: SwitchMaterial = findViewById(R.id.switchTechnodom)
         val switchTomas : SwitchMaterial = findViewById(R.id.switchTomas)
 
+        fun showMessage(text: String) {
+            return Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
+        }
+
         button.setOnClickListener {
             viewModel.loadData(
                     spinnerHardware.selectedItem.toString(),
@@ -58,7 +63,10 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     is MainViewModel.ParserEvent.Failure -> {
-                        button.text = getString(R.string.errorText)
+
+                        showMessage("Failure occurred")
+
+                        button.text = getString(R.string.find)
                         button.isEnabled = true
                     }
 
